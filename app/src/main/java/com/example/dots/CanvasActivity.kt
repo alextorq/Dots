@@ -22,7 +22,10 @@ class CustomView: AppCompatActivity() {
 
             }
             MotionEvent.ACTION_MOVE -> {
-                draw.drawLine(x, y)
+                draw.createLine(x, y)
+            }
+            MotionEvent.ACTION_UP-> {
+                draw.stopDrawLine()
             }
         }
         return true
