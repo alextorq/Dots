@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:name=".CustomView"
-            android:label="Canvas">
+            android:label="Dots">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

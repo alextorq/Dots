@@ -1,4 +1,4 @@
 package com.example.dots
 
-data class Line (val startX: Float, val startY: Float, val endX: Float, val endY: Float) {
+data class Line (var startX: Float, var startY: Float, var endX: Float, var endY: Float) {
 }
