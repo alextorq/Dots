@@ -21,15 +21,19 @@ class Draw(private val parentContext: Context): View(parentContext) {
     private var line: Line? = null
     private var startX: Float = 0F;
     private var startY: Float = 0F;
-//    private var endX: Float = 0F;
-//    private var endY: Float = 0F;
-    private var startCircle: Circle? = null;
+
+    private var startFigure: Figure = Rhombus(60F, 60F , 60F);
+    private var lastFigure: Figure = Rhombus(60F, 60F , 60F);
 
     private val paint: Paint = Paint();
     private var lines: MutableList<Line> = mutableListOf<Line>();
     private var circles: MutableList<Circle> = mutableListOf<Circle>();
 
     init {
+        paint.color = Color.parseColor("#FFFFFF")
+        paint.alpha = 255
+        paint.isAntiAlias = true
+
         for (i in 0..amount) {
             val countInRow: Int = i % amountInRow
             val rowNumber: Double = Math.ceil((i / amountInRow).toDouble())
@@ -38,6 +42,7 @@ class Draw(private val parentContext: Context): View(parentContext) {
             circles.add(Circle(x, y, radius))
         }
     }
+
     fun getSize(): IntArray {
         val width: Int = parentContext.getResources().getDisplayMetrics().widthPixels
         val height: Int = parentContext.getResources().getDisplayMetrics().heightPixels
@@ -49,22 +54,20 @@ class Draw(private val parentContext: Context): View(parentContext) {
         super.onDraw(canvas)
         saveCanvas = canvas;
         canvas.drawColor(Color.parseColor("#151515"))
-        drawLines()
+        drawSavedLines()
         drawLine(line)
         drawCircles(canvas)
 //        val sizes: IntArray = getSize()
     }
-    private fun drawCircles(canvas: Canvas) {
-        paint.color = Color.parseColor("#FFFFFF")
-        paint.alpha = 255
-        paint.isAntiAlias = true
 
+    private fun drawCircles(canvas: Canvas) {
         circles.map { T ->
             T.draw(canvas, paint)
         }
+        startFigure.draw(canvas, paint)
     }
 
-    private fun drawLines() {
+    private fun drawSavedLines() {
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 4F
         lines.map { T ->
@@ -79,6 +82,8 @@ class Draw(private val parentContext: Context): View(parentContext) {
             if (endCircle != null) {
                 line?.endX = endCircle.cx
                 line?.endY = endCircle.cy
+                endCircle.setActive()
+                lastFigure = endCircle;
                 lines.add(line!!);
             } else {
                 /*Если конечная точка линии не принадлежит ни одному кругу сбрасываем линию*/
@@ -94,31 +99,20 @@ class Draw(private val parentContext: Context): View(parentContext) {
         }
     }
 
+    private fun checkDotInCircles(x: Float, y: Float): Circle? {
+        return circles.firstOrNull { circle: Circle ->
+            circle.includeDot(x, y)
+        }
+    }
+
     fun createLine(x: Float, y: Float) {
         line = Line(startX, startY, x,y - actionBarOffset)
         invalidate()
     }
 
-
-    private fun checkDotInCircles(x: Float, y: Float): Circle? {
-        var includeCircle: Circle? = null;
-        circles.forEach { circle: Circle ->
-            val status = circle.includeDot(x, y)
-            if (status) {
-                circle.color = "#FF0000"
-                if (includeCircle == null) {
-                    includeCircle = circle
-                }
-            }
-        }
-        return includeCircle
-    }
-
     fun startDrawLine(x: Float, y: Float) {
-        startCircle = checkDotInCircles(x, y - actionBarOffset)
-        if (startCircle != null) {
-            startX = startCircle?.cx!!;
-            startY = startCircle?.cy!!;
-        }
+        startX = lastFigure.getCenterPoint().x.toFloat();
+        startY = lastFigure.getCenterPoint().y.toFloat();
+        createLine(x, y)
     }
 }
