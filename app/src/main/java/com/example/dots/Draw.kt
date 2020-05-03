@@ -4,14 +4,14 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Point
+import android.util.Log
 import android.view.View
 
-class Draw(private val parentContext: Context): View(parentContext) {
+class Draw(parentContext: Context, private val actionBarOffset: Int): View(parentContext) {
     private val radius: Float = 30F;
     private val amount: Int = 23;
     private val amountInRow: Int = 4;
-    private val actionBarOffset = 215
-
     private val dx: Int = 220;
     private val dy: Int = 220;
     private val offsetX: Int = 150;
@@ -19,8 +19,7 @@ class Draw(private val parentContext: Context): View(parentContext) {
     private lateinit var saveCanvas: Canvas;
 
     private var line: Line? = null
-    private var startX: Float = 0F;
-    private var startY: Float = 0F;
+    private var startPoint: Point = Point(0, 0);
 
     private var startFigure: Figure = Rhombus(60F, 60F , 60F);
     private var lastFigure: Figure = Rhombus(60F, 60F , 60F);
@@ -37,18 +36,18 @@ class Draw(private val parentContext: Context): View(parentContext) {
         for (i in 0..amount) {
             val countInRow: Int = i % amountInRow
             val rowNumber: Double = Math.ceil((i / amountInRow).toDouble())
-            val x: Float = (offsetX+ (dx + radius) * countInRow).toFloat()
+            val x: Float = (offsetX + (dx + radius) * countInRow).toFloat()
             val y: Float = (offsetY + (dy + radius) * rowNumber).toFloat()
-            circles.add(Circle(x, y, radius))
+
+            if (i == 0) {
+                startFigure = Rhombus(x, y , 60F);
+                lastFigure = Rhombus(x, y , 60F);
+            }else {
+                circles.add(Circle(x, y, radius))
+            }
         }
     }
 
-    fun getSize(): IntArray {
-        val width: Int = parentContext.getResources().getDisplayMetrics().widthPixels
-        val height: Int = parentContext.getResources().getDisplayMetrics().heightPixels
-
-        return intArrayOf(width, height)
-    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -57,11 +56,10 @@ class Draw(private val parentContext: Context): View(parentContext) {
         drawSavedLines()
         drawLine(line)
         drawCircles(canvas)
-//        val sizes: IntArray = getSize()
     }
 
     private fun drawCircles(canvas: Canvas) {
-        circles.map { T ->
+        circles.forEach { T ->
             T.draw(canvas, paint)
         }
         startFigure.draw(canvas, paint)
@@ -70,49 +68,67 @@ class Draw(private val parentContext: Context): View(parentContext) {
     private fun drawSavedLines() {
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 4F
-        lines.map { T ->
-            saveCanvas.drawLine(T.startX, T.startY, T.endX, T.endY, paint)
+        lines.forEach { line ->
+            drawLine(line)
         }
     }
 
-
     fun stopDrawLine() {
         if (line != null) {
-            val endCircle: Circle? = checkDotInCircles(line!!.endX, line!!.endY)
+            val endCircle: Circle? = checkDotInCircles(line!!.endPoint)
+            checkIntersections(line!!)
             if (endCircle != null) {
-                line?.endX = endCircle.cx
-                line?.endY = endCircle.cy
-                endCircle.setActive()
-                lastFigure = endCircle;
-                lines.add(line!!);
-            } else {
-                /*Если конечная точка линии не принадлежит ни одному кругу сбрасываем линию*/
-              line = null
+                line?.endPoint = endCircle.getCenterPoint()
+                if (checkCorner(line!!)) {
+                    endCircle.setActive()
+                    lastFigure = endCircle;
+                    lines.add(line!!);
+                }
             }
+            line = null
         }
         invalidate()
     }
 
-    private fun drawLine(T: Line?) {
-        if (T != null) {
-            saveCanvas.drawLine(T.startX, T.startY, T.endX, T.endY, paint)
+    private fun drawLine(line: Line?) {
+        if (line != null) {
+            saveCanvas.drawLine(
+                line.startPoint.x.toFloat(), line.startPoint.y.toFloat(),
+                line.endPoint.x.toFloat(), line.endPoint.y.toFloat(),
+                paint
+            )
         }
     }
 
-    private fun checkDotInCircles(x: Float, y: Float): Circle? {
+    private fun checkDotInCircles(point: Point): Circle? {
         return circles.firstOrNull { circle: Circle ->
-            circle.includeDot(x, y)
+            circle.includeDot(point)
         }
+    }
+
+    private fun checkIntersections(line: Line) {
+        circles.forEach { circle: Circle ->
+            val status = circle.includeLine(line.startPoint, line.endPoint);
+            if (status) {
+                circle.setActive()
+            }
+        }
+    }
+
+
+    private fun checkCorner(line: Line): Boolean {
+        return (line.startPoint.x == line.endPoint.x
+                || line.startPoint.y == line.endPoint.y)
     }
 
     fun createLine(x: Float, y: Float) {
-        line = Line(startX, startY, x,y - actionBarOffset)
+        //TODO не создавать новую а модифицировать
+        line = Line(startPoint, Point(x.toInt(), (y - actionBarOffset).toInt()) )
         invalidate()
     }
 
     fun startDrawLine(x: Float, y: Float) {
-        startX = lastFigure.getCenterPoint().x.toFloat();
-        startY = lastFigure.getCenterPoint().y.toFloat();
+        startPoint = lastFigure.getCenterPoint()
         createLine(x, y)
     }
 }

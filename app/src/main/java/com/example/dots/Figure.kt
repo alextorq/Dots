@@ -8,7 +8,7 @@ import android.graphics.Point
 interface Figure {
     fun draw(canvas: Canvas, paint: Paint)
 
-    fun includeDot(x: Float, y: Float): Boolean
+    fun includeDot(point: Point): Boolean
 
     fun getCenterPoint() :Point
 }
