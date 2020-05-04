@@ -1,9 +1,11 @@
-package com.example.dots
+package com.example.dots.figres
 import android.graphics.*
+import com.example.dots.Figure
 import kotlin.math.hypot
 
 
-class Rhombus(private val startX: Float, private val startY: Float, val width: Float): Figure {
+class Rhombus(private val startX: Float, private val startY: Float, val width: Float):
+    Figure {
     private val paint = Paint();
     private val path = Path()
     private val color = Color.parseColor("#FF9900")

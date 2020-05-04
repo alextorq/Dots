@@ -1,4 +1,4 @@
-package com.example.dots
+package com.example.dots.figres
 
 import android.graphics.Point
 

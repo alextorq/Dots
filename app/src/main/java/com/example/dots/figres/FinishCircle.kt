@@ -1,21 +1,18 @@
-package com.example.dots
+package com.example.dots.figres
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
+import com.example.dots.Figure
 import kotlin.math.hypot
 
-class Circle(val cx: Float, val cy: Float, private val radius: Float): Figure {
-
-    private var backgroundColor: Int = Color.parseColor("#151515")
-    private val borderColor: Int = Color.parseColor("#FFFFFF")
+class FinishCircle(val cx: Float, val cy: Float, private val radius: Float): Figure {
+    private val borderColor: Int = Color.parseColor("#FF9900")
     private val paint = Paint()
-    private var borderWidth: Int = 3;
     private val centerPoint: Point = Point(cx.toInt(), cy.toInt())
     /*Поправка на криворукость*/
     private val fingerCorrect = 20
-
 
     override fun getCenterPoint(): Point {
         return centerPoint
@@ -29,8 +26,6 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float): Figure {
     override fun draw(canvas: Canvas, paint: Paint) {
         this.paint.color = borderColor
         canvas.drawCircle(cx, cy, radius, this.paint)
-        this.paint.color = backgroundColor
-        canvas.drawCircle(cx, cy, radius - borderWidth, this.paint)
     }
 
     override fun includeDot(point: Point): Boolean {
@@ -65,10 +60,10 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float): Figure {
     }
 
     fun setActive() {
-        borderWidth = 10;
+//        borderWidth = 10;
     }
 
     fun setNormal() {
-        borderWidth = 2;
+//        borderWidth = 2;
     }
 }

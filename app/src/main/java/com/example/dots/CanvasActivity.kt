@@ -10,8 +10,9 @@ class CustomView: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sizes: ScreenSizes = sizeParams(this)
+        val model: LevelModel = LevelModel(sizes)
+        draw = Draw(this, model);
 
-        draw = Draw(this, sizes.yOffset);
         super.onCreate(savedInstanceState)
         setContentView(draw)
     }
