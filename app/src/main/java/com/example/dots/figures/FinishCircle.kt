@@ -1,13 +1,14 @@
-package com.example.dots.figres
+package com.example.dots.figures
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
-import com.example.dots.Figure
+import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
-class FinishCircle(val cx: Float, val cy: Float, private val radius: Float): Figure {
+class FinishCircle(val cx: Float, val cy: Float, private val radius: Float):
+    Figure {
     private val borderColor: Int = Color.parseColor("#FF9900")
     private val paint = Paint()
     private val centerPoint: Point = Point(cx.toInt(), cy.toInt())

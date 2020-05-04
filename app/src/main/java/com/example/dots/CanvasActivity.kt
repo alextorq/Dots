@@ -3,6 +3,8 @@ package com.example.dots
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dots.interfaces.ScreenSizes
+import com.example.dots.utils.sizeParams
 
 
 class CustomView: AppCompatActivity() {

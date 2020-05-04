@@ -7,16 +7,14 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
 import android.view.View
-import com.example.dots.figres.Circle
-import com.example.dots.figres.Line
+import com.example.dots.figures.Circle
+import com.example.dots.figures.Line
+import com.example.dots.interfaces.Figure
 
 class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
     private lateinit var saveCanvas: Canvas;
 
     private var line: Line? = null
-    private var startPoint: Point = Point(0, 0);
-
-    private var startFigure: Figure = model.startFigure;
     private var lastFigure: Figure = model.startFigure;
     private val actionBarOffset = model.yOffset
 
@@ -108,14 +106,13 @@ class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
     fun createLine(x: Float, y: Float) {
         //TODO не создавать новую а модифицировать
         line = Line(
-            startPoint,
+            lastFigure.getCenterPoint(),
             Point(x.toInt(), (y - actionBarOffset).toInt())
         )
         invalidate()
     }
 
     fun startDrawLine(x: Float, y: Float) {
-        startPoint = lastFigure.getCenterPoint()
         createLine(x, y)
     }
 }

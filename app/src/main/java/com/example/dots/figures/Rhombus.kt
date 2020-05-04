@@ -1,6 +1,6 @@
-package com.example.dots.figres
+package com.example.dots.figures
 import android.graphics.*
-import com.example.dots.Figure
+import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
 

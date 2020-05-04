@@ -1,15 +1,14 @@
-package com.example.dots.figres
+package com.example.dots.figures
 
-import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
-import com.example.dots.Figure
-import com.example.dots.R
+import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
-class Circle(val cx: Float, val cy: Float, private val radius: Float): Figure {
+class Circle(val cx: Float, val cy: Float, private val radius: Float):
+    Figure {
 
     private var backgroundColor: Int = Color.parseColor("#151515")
     private val borderColor: Int = Color.parseColor("#FFFFFF")

@@ -1,10 +1,11 @@
 package com.example.dots
 
-import android.view.MotionEvent
-import com.example.dots.figres.Circle
-import com.example.dots.figres.Cross
-import com.example.dots.figres.FinishCircle
-import com.example.dots.figres.Rhombus
+import com.example.dots.figures.Circle
+import com.example.dots.figures.Cross
+import com.example.dots.figures.FinishCircle
+import com.example.dots.figures.Rhombus
+import com.example.dots.interfaces.Figure
+import com.example.dots.interfaces.ScreenSizes
 
 class LevelModel(screenSizes: ScreenSizes) {
     public val amountFigure: Float = 24F;

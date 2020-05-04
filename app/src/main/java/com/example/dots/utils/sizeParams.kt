@@ -1,8 +1,9 @@
-package com.example.dots
+package com.example.dots.utils
 
 import android.R
 import android.content.Context
 import android.util.TypedValue
+import com.example.dots.interfaces.ScreenSizes
 
 fun sizeParams(context: Context): ScreenSizes {
 

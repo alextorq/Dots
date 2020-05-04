@@ -1,4 +1,4 @@
-package com.example.dots
+package com.example.dots.interfaces
 
 interface ScreenSizes {
     val statusBarHeight: Int

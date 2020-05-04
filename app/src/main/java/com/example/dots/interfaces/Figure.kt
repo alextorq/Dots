@@ -1,4 +1,4 @@
-package com.example.dots
+package com.example.dots.interfaces
 
 import android.graphics.Canvas
 import android.graphics.Paint
