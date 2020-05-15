@@ -6,22 +6,34 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
+import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
+import android.view.TextureView
 import android.view.View
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.example.dots.figures.Circle
 import com.example.dots.figures.Line
 import com.example.dots.interfaces.Figure
+import com.example.dots.interfaces.FigurePosition
+import com.example.dots.interfaces.ScreenSizes
+import com.example.dots.utils.sizeParams
 
-class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
+class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
+
     private lateinit var saveCanvas: Canvas;
+    private lateinit var figurePosition: FigurePosition;
 
     private var line: Line? = null
-    private var lastFigure: Figure = model.startFigure;
-    private val actionBarOffset = model.yOffset
-
     private val paint: Paint = Paint();
     private var lines: MutableList<Line> = mutableListOf<Line>();
-    private var circles: MutableList<Circle> = model.circles;
-    private var figures: MutableList<Figure> = model.figures;
+
+    private lateinit var lastFigure: Figure;
+    private lateinit var circles: MutableList<Circle>;
+    private lateinit var figures: MutableList<Figure>;
+
+    private lateinit var calback: (count: Int) -> Unit;
 
     @SuppressLint("ResourceType")
     private val backgroundColor: Int = Color.parseColor(getResources().getString(R.color.colorBackground))
@@ -30,6 +42,14 @@ class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
         paint.color = Color.parseColor("#FFFFFF")
         paint.alpha = 255
         paint.isAntiAlias = true
+    }
+
+    public fun setModel(position: FigurePosition) {
+        figurePosition = position;
+        lastFigure = position.lastFigure;
+        circles = position.circles
+        figures = position.figures
+
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -61,14 +81,15 @@ class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
             val endCircle: Circle? = checkDotInCircles(it.endPoint)
             endCircle?.let { circle ->
                 it.endPoint = circle.getCenterPoint()
-                if (checkCorner(it)) {
+                if (checkCorner(it) && !somePoint(it)) {
                     endCircle.setActive()
                     lastFigure = endCircle;
                     lines.add(it);
+                    updateStep(lines.size)
                 }
             }
-            line = null
         }
+        line = null
         invalidate()
     }
 
@@ -92,7 +113,7 @@ class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
         circles.forEach { circle: Circle ->
             val status = circle.includeLine(line.startPoint, line.endPoint);
             if (status) {
-                circle.setActive()
+//                circle.setActive()
             }
         }
     }
@@ -102,17 +123,47 @@ class Draw(parentContext: Context, model: LevelModel): View(parentContext) {
         return (line.startPoint.x == line.endPoint.x
                 || line.startPoint.y == line.endPoint.y)
     }
+    private fun somePoint(line: Line):Boolean {
+        return (line.startPoint.x == line.endPoint.x
+                && line.startPoint.y == line.endPoint.y)
+    }
 
     fun createLine(x: Float, y: Float) {
         //TODO не создавать новую а модифицировать
         line = Line(
             lastFigure.getCenterPoint(),
-            Point(x.toInt(), (y - actionBarOffset).toInt())
+            Point(x.toInt(), y.toInt())
         )
         invalidate()
     }
 
     fun startDrawLine(x: Float, y: Float) {
         createLine(x, y)
+    }
+
+
+    fun addListner(callback: (count: Int) -> Unit) {
+        this.calback = callback
+    }
+
+    fun updateStep(step: Int) {
+        this.calback(step)
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val x = event.x
+        val y = event.y
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                startDrawLine(x, y)
+            }
+            MotionEvent.ACTION_MOVE -> {
+               createLine(x, y)
+            }
+            MotionEvent.ACTION_UP-> {
+               stopDrawLine()
+            }
+        }
+        return true
     }
 }

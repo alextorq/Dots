@@ -29,9 +29,9 @@ fun sizeParams(context: Context): ScreenSizes {
     val result = object: ScreenSizes {
         override val statusBarHeight: Int = getStatusBarHeight()
         override val actionBarHeight: Int = getActionBarHeight()
-        override val width: Int = context.resources.getDisplayMetrics().widthPixels
-        override val height: Int = context.resources.getDisplayMetrics().heightPixels
-        override val yOffset = statusBarHeight + actionBarHeight
+        override var width: Int = context.resources.getDisplayMetrics().widthPixels
+        override var height: Int = context.resources.getDisplayMetrics().heightPixels
+        override var yOffset = statusBarHeight + actionBarHeight
     }
 
     return result
