@@ -36,7 +36,7 @@ class FinishCircle(val cx: Float, val cy: Float, private val radius: Float):
         return (radius + fingerCorrect) > hypotenuse;
     }
 
-    fun includeLine(p1: Point, p2: Point): Boolean {
+    override fun includeLine(p1: Point, p2: Point): Boolean {
 
         val x01 = p1.x - centerPoint.x;
         val y01 = p1.y - centerPoint.y;

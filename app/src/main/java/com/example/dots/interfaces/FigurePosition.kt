@@ -5,8 +5,10 @@ import com.example.dots.figures.Circle
 interface FigurePosition {
     val figures: MutableList<Figure>
     val circles: MutableList<Circle>
+    val crosses: MutableList<Figure>
     val startFigure: Figure
     val lastFigure: Figure
+    val finishFigure: Figure
     val ofx: Float
     val ofy: Float
 }

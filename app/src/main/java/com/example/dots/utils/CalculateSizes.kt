@@ -15,8 +15,10 @@ class CalculateSizes(val model: LevelModel) {
 
         val figures: MutableList<Figure> = mutableListOf<Figure>();
         val circles: MutableList<Circle> = mutableListOf<Circle>();
+        val crosses: MutableList<Figure> = mutableListOf<Figure>();
         lateinit var startFigure: Figure;
         lateinit var lastFigure: Figure;
+        lateinit var finishFigure: Figure;
 
         val amountRows: Float = model.amountFigure / model.amountFigureInRow
         val diameter: Float = model.circleRadius * 2F
@@ -55,9 +57,11 @@ class CalculateSizes(val model: LevelModel) {
                     val finish: Figure =
                         Cross(x, y, circleRadiusPixelFormat)
                     figure = finish
+                    crosses.add(figure);
                 }
                 23 -> {
                     figure = FinishCircle(x, y, circleRadiusPixelFormat)
+                    finishFigure = figure
                 }
                 else -> {
                     figure = Circle(x, y, circleRadiusPixelFormat)
@@ -72,8 +76,10 @@ class CalculateSizes(val model: LevelModel) {
         val result =  object: FigurePosition {
             override val figures = figures;
             override val circles = circles;
+            override val crosses = crosses;
             override val startFigure = startFigure;
             override val lastFigure = lastFigure;
+            override val finishFigure = finishFigure
             override val ofx = ofx;
             override val ofy = ofy;
         }

@@ -30,8 +30,11 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
     private var lines: MutableList<Line> = mutableListOf<Line>();
 
     private lateinit var lastFigure: Figure;
+    private lateinit var finishFigure: Figure;
     private lateinit var circles: MutableList<Circle>;
     private lateinit var figures: MutableList<Figure>;
+    private lateinit var crosses: MutableList<Figure>;
+
 
     private lateinit var calback: (count: Int) -> Unit;
 
@@ -49,7 +52,10 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         lastFigure = position.lastFigure;
         circles = position.circles
         figures = position.figures
-
+        crosses = position.crosses
+        finishFigure = position.finishFigure
+        lines.clear()
+        postInvalidateOnAnimation()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -77,20 +83,31 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
 
     fun stopDrawLine() {
         line?.let {
-            checkIntersections(it)
-            val endCircle: Circle? = checkDotInCircles(it.endPoint)
-            endCircle?.let { circle ->
-                it.endPoint = circle.getCenterPoint()
-                if (checkCorner(it) && !somePoint(it)) {
-                    endCircle.setActive()
-                    lastFigure = endCircle;
-                    lines.add(it);
-                    updateStep(lines.size)
+            val statusIntersectinCross = checkIntersections(it)
+            if (!statusIntersectinCross) {
+                val endCircle: Circle? = checkDotInCircles(it.endPoint)
+                endCircle?.let { circle ->
+                    it.endPoint = circle.getCenterPoint()
+                    if (checkCorner(it) && !somePoint(it)) {
+                        endCircle.setActive(this)
+                        lastFigure = endCircle;
+                        lines.add(it);
+                        updateStep(lines.size)
+                    }
+                }
+                val finish = finishFigure.includeDot(it.endPoint)
+                if (finish) {
+                    it.endPoint = finishFigure.getCenterPoint()
+                    if (checkCorner(it)) {
+                        lastFigure = finishFigure;
+                        lines.add(it);
+                        updateStep(lines.size)
+                    }
                 }
             }
         }
         line = null
-        invalidate()
+        postInvalidateOnAnimation()
     }
 
     private fun drawCurrentLine(line: Line?) {
@@ -103,19 +120,26 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         }
     }
 
+
+    private fun checkFinish(point: Point): Boolean {
+        return lastFigure.includeDot(point)
+    }
+
     private fun checkDotInCircles(point: Point): Circle? {
         return circles.firstOrNull { circle: Circle ->
             circle.includeDot(point)
         }
     }
 
-    private fun checkIntersections(line: Line) {
-        circles.forEach { circle: Circle ->
-            val status = circle.includeLine(line.startPoint, line.endPoint);
-            if (status) {
-//                circle.setActive()
+    private fun checkIntersections(line: Line): Boolean {
+        var status = false;
+        crosses.forEach { cross: Figure ->
+            val statusInclude = cross.includeLine(line.startPoint, line.endPoint);
+            if (!status) {
+                status =  statusInclude
             }
         }
+        return status
     }
 
     /*Проверка на то что прямая не под углом*/
@@ -134,7 +158,7 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
             lastFigure.getCenterPoint(),
             Point(x.toInt(), y.toInt())
         )
-        invalidate()
+        postInvalidateOnAnimation()
     }
 
     fun startDrawLine(x: Float, y: Float) {

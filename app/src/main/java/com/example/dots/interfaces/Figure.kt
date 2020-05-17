@@ -11,4 +11,6 @@ interface Figure {
     fun includeDot(point: Point): Boolean
 
     fun getCenterPoint() :Point
+
+    fun includeLine(p1: Point, p2: Point): Boolean
 }

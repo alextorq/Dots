@@ -4,8 +4,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
+import android.os.Handler
+import com.example.dots.Draw
 import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
+
 
 class Circle(val cx: Float, val cy: Float, private val radius: Float):
     Figure {
@@ -42,7 +45,7 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
         return (radius + fingerCorrect) > hypotenuse;
     }
 
-    fun includeLine(p1: Point, p2: Point): Boolean {
+    override fun includeLine(p1: Point, p2: Point): Boolean {
 
         val x01 = p1.x - centerPoint.x;
         val y01 = p1.y - centerPoint.y;
@@ -66,8 +69,13 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
         return (a + b + c < 0);
     }
 
-    fun setActive() {
-        borderWidth = 10;
+    fun setActive(context: Draw) {
+        for (x in 0..10)  {
+            Handler().postDelayed({
+                borderWidth += 1;
+                context.postInvalidate()
+            }, (10 * x).toLong())
+        }
     }
 
     fun setNormal() {
