@@ -7,7 +7,7 @@ interface FigurePosition {
     val circles: MutableList<Circle>
     val crosses: MutableList<Figure>
     val startFigure: Figure
-    val lastFigure: Figure
+    var lastFigure: Figure
     val finishFigure: Figure
     val ofx: Float
     val ofy: Float

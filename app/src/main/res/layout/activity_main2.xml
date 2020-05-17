@@ -27,7 +27,7 @@
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_arrow_back_black_24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="VectorDrawableCompat" />
+                tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
             <ImageButton
                 android:id="@+id/imageButton2"
@@ -35,7 +35,8 @@
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_wc_black_24dp"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +53,8 @@
                 android:text="0/1 "
                 android:textColor="@android:color/white"
                 android:textSize="30dp"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints">
             </TextView>
 
             <TextView
@@ -61,7 +63,8 @@
                 android:text=" steps"
                 android:textColor="@android:color/white"
                 android:textSize="30dp"
-                app:layout_constraintStart_toEndOf="@+id/step">
+                app:layout_constraintStart_toEndOf="@+id/step"
+                tools:ignore="MissingConstraints">
             </TextView>
 
             <Button
@@ -72,7 +75,8 @@
                 android:text="\?"
                 android:textColor="@android:color/white"
                 android:textSize="30dp"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

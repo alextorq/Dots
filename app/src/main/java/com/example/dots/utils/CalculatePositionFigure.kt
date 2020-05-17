@@ -9,7 +9,7 @@ import com.example.dots.interfaces.Figure
 import com.example.dots.interfaces.FigurePosition
 import com.example.dots.interfaces.ScreenSizes
 
-class CalculateSizes(val model: LevelModel) {
+class CalculatePositionFigure(val model: LevelModel) {
 
     public fun calc(screenSizes: ScreenSizes): FigurePosition {
 
