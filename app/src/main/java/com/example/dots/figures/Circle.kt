@@ -1,10 +1,12 @@
 package com.example.dots.figures
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
 import android.os.Handler
+import android.view.View
 import com.example.dots.Draw
 import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
@@ -69,7 +71,7 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
         return (a + b + c < 0);
     }
 
-    fun setActive(context: Draw) {
+    override fun setActive(context: View) {
         for (x in 0..10)  {
             Handler().postDelayed({
                 borderWidth += 1;

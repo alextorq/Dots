@@ -1,5 +1,6 @@
 package com.example.dots.figures
 import android.graphics.*
+import android.view.View
 import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
@@ -63,6 +64,10 @@ class Rhombus(private val startX: Float, private val startY: Float, val width: F
 
     override fun getCenterPoint(): Point {
         return centerPoint;
+    }
+
+    override fun setActive(context: View) {
+
     }
 
 }

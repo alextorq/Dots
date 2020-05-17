@@ -26,6 +26,8 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
     private lateinit var lastFigure: Figure;
     private lateinit var figures: MutableList<Figure>;
 
+    private lateinit var gameManager: GameManger;
+
 
     @SuppressLint("ResourceType")
     private val backgroundColor: Int = Color.parseColor(getResources().getString(R.color.colorBackground))
@@ -58,11 +60,19 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         }
     }
 
-    fun addLine(line: Line, endCircle: Circle): Int {
-        endCircle.setActive(this)
-        lastFigure = endCircle;
+    fun addLine(line: Line): Int {
         lines.add(line);
         return lines.size
+    }
+
+    fun setGameManger(context: GameManger) {
+        gameManager = context
+    }
+
+
+    fun setFigureActive(figure: Figure) {
+        figure.setActive(this)
+        lastFigure = figure;
     }
 
     private fun drawSavedLines() {
@@ -73,7 +83,10 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         }
     }
 
-    fun stopDrawLine() {
+    private fun stopDrawLine() {
+        line?.let {
+            gameManager.stopDrawLine(it)
+        }
         line = null
         postInvalidateOnAnimation()
     }

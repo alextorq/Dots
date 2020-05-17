@@ -47,9 +47,9 @@ class GameManger: AppCompatActivity() {
             endCircle?.let { circle ->
                 line.endPoint = circle.getCenterPoint()
                 if (checkCorner(line) && !somePoint(line)) {
-                    val linesAmount: Int = ViewGame.addLine(line, endCircle)
+                    val linesAmount: Int = ViewGame.addLine(line)
+                    ViewGame.setFigureActive(endCircle)
                     updateStep(linesAmount)
-//                    set
                 }
             }
             val finish = figurePosition.finishFigure.includeDot(line.endPoint)
@@ -57,7 +57,8 @@ class GameManger: AppCompatActivity() {
                 line.endPoint = figurePosition.finishFigure.getCenterPoint()
                 if (checkCorner(line)) {
                     figurePosition.lastFigure = figurePosition.finishFigure;
-                    val linesAmount: Int = ViewGame.addLine(line, endCircle)
+                    val linesAmount: Int = ViewGame.addLine(line)
+                    ViewGame.setFigureActive(figurePosition.lastFigure)
                     updateStep(linesAmount)
                 }
             }
@@ -109,6 +110,7 @@ class GameManger: AppCompatActivity() {
         val calculateSizes = CalculatePositionFigure(model);
         figurePosition = calculateSizes.calc(sizes);
         ViewGame.setModel(figurePosition)
+        ViewGame.setGameManger(this)
 
         setPadding()
         updateStep(0)

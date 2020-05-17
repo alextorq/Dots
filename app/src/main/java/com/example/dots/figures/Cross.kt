@@ -1,6 +1,8 @@
 package com.example.dots.figures
 
 import android.graphics.*
+import android.os.Handler
+import android.view.View
 import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
@@ -65,6 +67,10 @@ class Cross(private val startX: Float, private val startY: Float, val width: Flo
         val y2: Float = point.y - startY
         val hypotenuse: Float =  hypot(x2, y2)
         return cathet > hypotenuse;
+    }
+
+    override fun setActive(context: View) {
+
     }
 
 }

@@ -78,7 +78,7 @@ class CalculatePositionFigure(val model: LevelModel) {
             override val circles = circles;
             override val crosses = crosses;
             override val startFigure = startFigure;
-            override val lastFigure = lastFigure;
+            override var lastFigure = lastFigure;
             override val finishFigure = finishFigure
             override val ofx = ofx;
             override val ofy = ofy;

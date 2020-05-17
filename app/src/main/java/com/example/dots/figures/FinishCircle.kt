@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
+import android.view.View
 import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
@@ -60,8 +61,8 @@ class FinishCircle(val cx: Float, val cy: Float, private val radius: Float):
         return (a + b + c < 0);
     }
 
-    fun setActive() {
-//        borderWidth = 10;
+    override fun setActive(context: View) {
+
     }
 
     fun setNormal() {
