@@ -19,5 +19,12 @@ class MenuActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        val newGame: LinearLayout = findViewById(R.id.newGameLink)
+        newGame.setOnClickListener{
+            val intent = Intent(this, GameManger::class.java)
+            startActivity(intent)
+        }
+
     }
 }

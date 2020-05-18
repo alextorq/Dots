@@ -23,108 +23,55 @@
 
         <LinearLayout
             android:id="@+id/resumeLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingBottom="15dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/layout2"
-            tools:layout_editor_absoluteX="20dp">
+            style="@style/menuLinkLayout">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineHeight="49dp"
-                android:text="Resume"
-                android:textColor="@android:color/white"
-                android:layout_weight="1"
-                android:textSize="36sp" />
+                style="@style/menuItem"
+                android:text="Resume" />
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow_back_black_24dp"
+                style="@style/menuItemButton"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="VectorDrawableCompat" />
 
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/newGameLink"
-            android:layout_width="match_parent"
-            android:paddingBottom="15dp"
-            android:background="@drawable/layout2"
-            android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content">
+            style="@style/menuLinkLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineHeight="49dp"
-                android:text="New game"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
-                android:textSize="36sp" />
+                style="@style/menuItem"
+                android:text="New game"/>
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow_back_black_24dp"
+                style="@style/menuItemButton"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="VectorDrawableCompat" />
-        </LinearLayout>
 
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/SettingsLink"
-            android:layout_width="match_parent"
-            android:paddingBottom="15dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/layout2"
-            android:layout_height="wrap_content">
+            style="@style/menuLinkLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineHeight="49dp"
-                android:text="Settings"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
-                android:textSize="36sp" />
+                style="@style/menuItem"
+                android:text="Settings game"/>
+
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow_back_black_24dp"
+                style="@style/menuItemButton"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="VectorDrawableCompat" />
         </LinearLayout>
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:paddingBottom="15dp"
             android:id="@+id/AboutLink"
-            android:background="@drawable/layout2"
-            android:layout_height="wrap_content">
+            style="@style/menuLinkLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineHeight="49dp"
-                android:text="About"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
-                android:textSize="36sp" />
+                style="@style/menuItem"
+                android:text="About game"/>
 
             <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow_back_black_24dp"
+                style="@style/menuItemButton"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="VectorDrawableCompat" />
         </LinearLayout>

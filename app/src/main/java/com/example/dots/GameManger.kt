@@ -1,5 +1,6 @@
 package com.example.dots
 
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.widget.ImageButton
@@ -22,21 +23,14 @@ class GameManger: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main2)
-        ViewGame= findViewById(R.id.view)
-
-        this.initGame()
+        ViewGame = findViewById(R.id.view)
 
         ViewGame.post {
             heightCanvas = ViewGame.height
             this.initGame()
         }
 
-        val resetLevelButton: ImageButton = findViewById(R.id.resetLevel)
-
-        resetLevelButton.setOnClickListener{
-            initGame()
-        }
-
+        setListeners()
         super.onCreate(savedInstanceState)
     }
 
@@ -65,7 +59,6 @@ class GameManger: AppCompatActivity() {
         }
     }
 
-
     private fun checkFinish(point: Point): Boolean {
         return figurePosition.lastFigure.includeDot(point)
     }
@@ -87,7 +80,6 @@ class GameManger: AppCompatActivity() {
         }
     }
 
-
     private fun checkIntersections(line: Line): Boolean {
         var status = false;
         figurePosition.crosses.forEach { cross: Figure ->
@@ -98,9 +90,6 @@ class GameManger: AppCompatActivity() {
         }
         return status
     }
-
-
-
 
     fun initGame() {
         model = LevelModel()
@@ -116,17 +105,28 @@ class GameManger: AppCompatActivity() {
         updateStep(0)
     }
 
-
     private fun setPadding() {
         val padding: Int = figurePosition.ofx.toInt();
         val toolbar: LinearLayout = findViewById(R.id.toolbar)
         toolbar.setPadding(padding, 0, padding, 0)
     }
 
-
-
     fun updateStep(count: Int) {
         val TextureView: TextView = findViewById(R.id.step)
         TextureView.setText("${count}/${model.amountSteps}")
+    }
+
+
+    private fun setListeners() {
+        val resetLevelButton: ImageButton = findViewById(R.id.resetLevel)
+        resetLevelButton.setOnClickListener{
+            initGame()
+        }
+
+        val menuLink: ImageButton = findViewById(R.id.menuLink)
+        menuLink.setOnClickListener{
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

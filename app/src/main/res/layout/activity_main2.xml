@@ -16,7 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
@@ -25,16 +25,16 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow_back_black_24dp"
+                android:src="@drawable/ic_reset_level"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/menuLink"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_wc_black_24dp"
+                android:src="@drawable/ic_to_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -48,33 +48,25 @@
 
             <TextView
                 android:id="@+id/step"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0/1 "
-                android:textColor="@android:color/white"
-                android:textSize="30dp"
+                android:text="0/1"
+                style="@style/gameBarText"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints">
             </TextView>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/gameBarText"
                 android:text=" steps"
-                android:textColor="@android:color/white"
-                android:textSize="30dp"
                 app:layout_constraintStart_toEndOf="@+id/step"
-                tools:ignore="MissingConstraints">
-            </TextView>
+                tools:ignore="MissingConstraints" />
 
             <Button
                 android:id="@+id/imageButton3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                style="@style/gameBarText"
                 android:background="@android:color/transparent"
                 android:text="\?"
-                android:textColor="@android:color/white"
-                android:textSize="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>

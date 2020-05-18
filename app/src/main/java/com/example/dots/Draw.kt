@@ -24,7 +24,7 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
     private var lines: MutableList<Line> = mutableListOf<Line>();
 
     private lateinit var lastFigure: Figure;
-    private lateinit var figures: MutableList<Figure>;
+    private var figures: MutableList<Figure> = mutableListOf<Figure>();
 
     private lateinit var gameManager: GameManger;
 
@@ -69,7 +69,6 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         gameManager = context
     }
 
-
     fun setFigureActive(figure: Figure) {
         figure.setActive(this)
         lastFigure = figure;
@@ -100,7 +99,6 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
             )
         }
     }
-
 
     fun createLine(x: Float, y: Float) {
         //TODO не создавать новую а модифицировать

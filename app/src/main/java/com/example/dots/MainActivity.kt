@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             .setContentTitle("Hello world")
             .setContentText("Hey from my first app")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setSmallIcon(R.drawable.ic_wc_black_24dp)
+            .setSmallIcon(R.drawable.ic_reset_level)
 //
         val notificationButton: Button = findViewById(R.id.create_notification)
         var notificationID: Int = 0;
