@@ -1,3 +1,3 @@
 ## Android game dots
 
-![Image](http://i.imgur.com/cNghwlU.png)
+![Image](https://i.imgur.com/HChrQfr.png)
