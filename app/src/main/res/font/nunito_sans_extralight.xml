@@ -5,4 +5,3 @@
         app:fontProviderQuery="name=Nunito Sans&amp;weight=200"
         app:fontProviderCerts="@array/com_google_android_gms_fonts_certs">
 </font-family>
-0

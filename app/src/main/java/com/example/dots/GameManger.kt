@@ -3,6 +3,7 @@ package com.example.dots
 import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -58,6 +59,17 @@ class GameManger: AppCompatActivity() {
             }
         }
     }
+
+
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+
+//        outState.
+
+        super.onSaveInstanceState(outState, outPersistentState)
+    }
+
+
 
     private fun checkFinish(point: Point): Boolean {
         return figurePosition.lastFigure.includeDot(point)
