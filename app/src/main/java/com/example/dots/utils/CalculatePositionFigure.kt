@@ -1,10 +1,7 @@
 package com.example.dots.utils
 
 import com.example.dots.LevelModel
-import com.example.dots.figures.Circle
-import com.example.dots.figures.Cross
-import com.example.dots.figures.FinishCircle
-import com.example.dots.figures.Rhombus
+import com.example.dots.figures.*
 import com.example.dots.interfaces.Figure
 import com.example.dots.interfaces.FigurePosition
 import com.example.dots.interfaces.ScreenSizes
@@ -16,6 +13,8 @@ class CalculatePositionFigure(val model: LevelModel) {
         val figures: MutableList<Figure> = mutableListOf<Figure>();
         val circles: MutableList<Circle> = mutableListOf<Circle>();
         val crosses: MutableList<Figure> = mutableListOf<Figure>();
+        val requiredCircle: MutableList<Figure> = mutableListOf<Figure>();
+
         lateinit var startFigure: Figure;
         lateinit var lastFigure: Figure;
         lateinit var finishFigure: Figure;
@@ -53,6 +52,16 @@ class CalculatePositionFigure(val model: LevelModel) {
                     startFigure = rhombus
                     lastFigure = rhombus
                 }
+                15 -> {
+                    figure = RequiredCircle(
+                        x,
+                        y,
+                        circleRadiusPixelFormat
+                    )
+                    requiredCircle.add(figure);
+                }
+
+
                 10 -> {
                     val finish: Figure =
                         Cross(x, y, circleRadiusPixelFormat)
@@ -77,6 +86,7 @@ class CalculatePositionFigure(val model: LevelModel) {
             override val figures = figures;
             override val circles = circles;
             override val crosses = crosses;
+            override val requiredCircle = requiredCircle;
             override val startFigure = startFigure;
             override var lastFigure = lastFigure;
             override val finishFigure = finishFigure

@@ -27,7 +27,7 @@ class FinishCircle(val cx: Float, val cy: Float, private val radius: Float):
 
     override fun draw(canvas: Canvas, paint: Paint) {
         this.paint.color = borderColor
-        canvas.drawCircle(cx, cy, radius, this.paint)
+        canvas.drawCircle(cx, cy, radius - 10F, this.paint)
     }
 
     override fun includeDot(point: Point): Boolean {

@@ -4,6 +4,7 @@ import android.graphics.*
 import android.os.Handler
 import android.view.View
 import com.example.dots.interfaces.Figure
+import com.example.dots.utils.FiguresParams
 import kotlin.math.hypot
 
 class Cross(private val startX: Float, private val startY: Float, val width: Float):
@@ -16,7 +17,7 @@ class Cross(private val startX: Float, private val startY: Float, val width: Flo
 
     init {
         paint.style = Paint.Style.STROKE
-        paint.setStrokeWidth(4F)
+        paint.setStrokeWidth(FiguresParams.CrossStroke)
         paint.color = color
         paint.alpha = 255
         paint.isAntiAlias = true

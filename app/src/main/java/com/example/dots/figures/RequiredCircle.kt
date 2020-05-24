@@ -1,30 +1,34 @@
 package com.example.dots.figures
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
 import android.os.Handler
 import android.view.View
-import com.example.dots.Draw
 import com.example.dots.interfaces.Figure
 import com.example.dots.utils.FiguresParams
 import kotlin.math.hypot
 
-
-class Circle(val cx: Float, val cy: Float, private val radius: Float):
-    Figure {
+class RequiredCircle(private val cx: Float, private val cy: Float, private val radius: Float): Figure {
 
     private var backgroundColor: Int = Color.parseColor("#151515")
     private val borderColor: Int = Color.parseColor("#FFFFFF")
     private val paint = Paint()
-    private var borderWidth = FiguresParams.CircleBorderWidth
+    private var borderWidth= FiguresParams.RequiredCircleBorderWidth;
     private val centerPoint: Point = Point(cx.toInt(), cy.toInt())
     /*Поправка на криворукость*/
     private val fingerCorrect = 20
-    private var isActive: Boolean = false
+    public var isActive = false;
 
+    override fun draw(canvas: Canvas, paint: Paint) {
+        this.paint.color = borderColor
+        canvas.drawCircle(cx, cy, radius, this.paint)
+        this.paint.color = backgroundColor
+        canvas.drawCircle(cx, cy, radius - borderWidth, this.paint)
+        this.paint.color = borderColor
+        canvas.drawCircle(cx, cy, 10F, this.paint)
+    }
 
     override fun getCenterPoint(): Point {
         return centerPoint
@@ -33,13 +37,6 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
     init {
         paint.alpha = 255
         paint.isAntiAlias = true
-    }
-
-    override fun draw(canvas: Canvas, paint: Paint) {
-        this.paint.color = borderColor
-        canvas.drawCircle(cx, cy, radius, this.paint)
-        this.paint.color = backgroundColor
-        canvas.drawCircle(cx, cy, radius - borderWidth, this.paint)
     }
 
     override fun includeDot(point: Point): Boolean {
@@ -75,18 +72,19 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
 
     override fun setActive(context: View) {
         if (!isActive) {
-            val activeBorderWidth = FiguresParams.CircleActiveBorderWidth;
-            for (x in 0..activeBorderWidth)  {
+            val requiredCircleActiveBorderWidth = FiguresParams.RequiredCircleActiveBorderWidth
+            for (x in 0..requiredCircleActiveBorderWidth)  {
                 Handler().postDelayed({
                     borderWidth += 1;
                     context.postInvalidate()
                 }, (10 * x).toLong())
             }
-            isActive = true;
+            isActive = true
         }
     }
 
     fun setNormal() {
         borderWidth = 2;
     }
+
 }

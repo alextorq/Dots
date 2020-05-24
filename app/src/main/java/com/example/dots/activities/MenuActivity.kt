@@ -1,9 +1,11 @@
-package com.example.dots
+package com.example.dots.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dots.GameManger
+import com.example.dots.R
 
 
 class MenuActivity : AppCompatActivity() {

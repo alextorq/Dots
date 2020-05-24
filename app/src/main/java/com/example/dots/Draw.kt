@@ -25,6 +25,7 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
 
     private lateinit var lastFigure: Figure;
     private var figures: MutableList<Figure> = mutableListOf<Figure>();
+    public var canDraw: Boolean = true;
 
     private lateinit var gameManager: GameManger;
 
@@ -39,6 +40,7 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
     }
 
     public fun setModel(position: FigurePosition) {
+        canDraw = true
         lastFigure = position.lastFigure;
         figures = position.figures
         lines.clear()
@@ -102,6 +104,9 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
 
     fun createLine(x: Float, y: Float) {
         //TODO не создавать новую а модифицировать
+        if (!canDraw) {
+            return
+        }
         line = Line(
             lastFigure.getCenterPoint(),
             Point(x.toInt(), y.toInt())
