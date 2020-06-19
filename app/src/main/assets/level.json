@@ -1,0 +1,118 @@
+
+{
+  "figures": [
+  {
+    "type": "start"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "cross"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "cross"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "cross"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "requiredDot"
+  },
+  {
+    "type": "cross"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "cross"
+  },
+  {
+    "type": "requiredDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "cross"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "generalDot"
+  },
+  {
+    "type": "finish"
+  }
+  ],
+  "amountSteps": 6,
+  "circleRadius": 4,
+  "amountFigureInRow": 6,
+  "amountFigure": 36,
+  "lines": []
+}

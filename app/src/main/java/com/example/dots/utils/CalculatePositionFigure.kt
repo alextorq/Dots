@@ -1,10 +1,7 @@
 package com.example.dots.utils
 
 import com.example.dots.LevelModel
-import com.example.dots.figures.Circle
-import com.example.dots.figures.Cross
-import com.example.dots.figures.FinishCircle
-import com.example.dots.figures.Rhombus
+import com.example.dots.figures.*
 import com.example.dots.interfaces.Figure
 import com.example.dots.interfaces.FigurePosition
 import com.example.dots.interfaces.ScreenSizes
@@ -16,6 +13,8 @@ class CalculatePositionFigure(val model: LevelModel) {
         val figures: MutableList<Figure> = mutableListOf<Figure>();
         val circles: MutableList<Circle> = mutableListOf<Circle>();
         val crosses: MutableList<Figure> = mutableListOf<Figure>();
+        val requiredCircle: MutableList<RequiredCircle> = mutableListOf<RequiredCircle>();
+
         lateinit var startFigure: Figure;
         lateinit var lastFigure: Figure;
         lateinit var finishFigure: Figure;
@@ -39,11 +38,12 @@ class CalculatePositionFigure(val model: LevelModel) {
             val rowNumber: Int = Math.ceil((i / model.amountFigureInRow.toInt()).toDouble()).toInt() + 1
             val x: Float = (((countInRow *  (circleRadiusPixelFormat + ofx))) + ((countInRow - 1) * circleRadiusPixelFormat))
             val y: Float = (((rowNumber *  (circleRadiusPixelFormat + ofy))) + ((rowNumber - 1) * circleRadiusPixelFormat))
+            val type: String? = model.figures[i].type
 
             var figure: Figure? = null;
 
-            when (i) {
-                0 -> {
+            when (type) {
+                "start" -> {
                     val rhombus = Rhombus(
                         x,
                         y,
@@ -53,13 +53,23 @@ class CalculatePositionFigure(val model: LevelModel) {
                     startFigure = rhombus
                     lastFigure = rhombus
                 }
-                10 -> {
+                "requiredDot" -> {
+                    figure = RequiredCircle(
+                        x,
+                        y,
+                        circleRadiusPixelFormat
+                    )
+                    requiredCircle.add(figure)
+                }
+
+
+                "cross" -> {
                     val finish: Figure =
                         Cross(x, y, circleRadiusPixelFormat)
                     figure = finish
                     crosses.add(figure);
                 }
-                23 -> {
+                "finish" -> {
                     figure = FinishCircle(x, y, circleRadiusPixelFormat)
                     finishFigure = figure
                 }
@@ -77,6 +87,7 @@ class CalculatePositionFigure(val model: LevelModel) {
             override val figures = figures;
             override val circles = circles;
             override val crosses = crosses;
+            override val requiredCircle = requiredCircle;
             override val startFigure = startFigure;
             override var lastFigure = lastFigure;
             override val finishFigure = finishFigure

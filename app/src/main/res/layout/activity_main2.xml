@@ -43,18 +43,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/layout2"
-            android:paddingBottom="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:id="@+id/step"
-                android:text="0/1"
                 style="@style/gameBarText"
+                android:text="0/1"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints">
-            </TextView>
+                tools:ignore="MissingConstraints"></TextView>
 
             <TextView
+                android:id="@+id/textView2"
                 style="@style/gameBarText"
                 android:text=" steps"
                 app:layout_constraintStart_toEndOf="@+id/step"
@@ -62,13 +62,14 @@
 
             <Button
                 android:id="@+id/imageButton3"
+                style="@style/gameBarText"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                style="@style/gameBarText"
                 android:background="@android:color/transparent"
-                android:text="\?"
+                android:text="@string/help"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="1dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

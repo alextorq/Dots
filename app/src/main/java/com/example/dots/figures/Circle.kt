@@ -9,6 +9,7 @@ import android.os.Handler
 import android.view.View
 import com.example.dots.Draw
 import com.example.dots.interfaces.Figure
+import com.example.dots.utils.FiguresParams
 import kotlin.math.hypot
 
 
@@ -18,10 +19,11 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
     private var backgroundColor: Int = Color.parseColor("#151515")
     private val borderColor: Int = Color.parseColor("#FFFFFF")
     private val paint = Paint()
-    private var borderWidth: Int = 3;
+    private var borderWidth = FiguresParams.CircleBorderWidth
     private val centerPoint: Point = Point(cx.toInt(), cy.toInt())
     /*Поправка на криворукость*/
     private val fingerCorrect = 20
+    private var isActive: Boolean = false
 
 
     override fun getCenterPoint(): Point {
@@ -72,11 +74,15 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
     }
 
     override fun setActive(context: View) {
-        for (x in 0..10)  {
-            Handler().postDelayed({
-                borderWidth += 1;
-                context.postInvalidate()
-            }, (10 * x).toLong())
+        if (!isActive) {
+            val activeBorderWidth = FiguresParams.CircleActiveBorderWidth;
+            for (x in 0..activeBorderWidth)  {
+                Handler().postDelayed({
+                    borderWidth += 1;
+                    context.postInvalidate()
+                }, (10 * x).toLong())
+            }
+            isActive = true;
         }
     }
 
