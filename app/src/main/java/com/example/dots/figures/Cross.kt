@@ -7,7 +7,7 @@ import com.example.dots.interfaces.Figure
 import com.example.dots.utils.FiguresParams
 import kotlin.math.hypot
 
-class Cross(private val startX: Float, private val startY: Float, val width: Float):
+class Cross(private val startX: Float, private val startY: Float, val width: Float, override val playingField: Int):
     Figure {
     private val paint = Paint();
     private val path = Path()
@@ -70,7 +70,7 @@ class Cross(private val startX: Float, private val startY: Float, val width: Flo
         return cathet > hypotenuse;
     }
 
-    override fun setActive(context: View) {
+    override fun setActive(context: View?) {
 
     }
 

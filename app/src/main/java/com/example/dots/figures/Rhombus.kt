@@ -5,7 +5,7 @@ import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
 
-class Rhombus(private val startX: Float, private val startY: Float, val width: Float):
+class Rhombus(private val startX: Float, private val startY: Float, val width: Float, override val playingField: Int):
     Figure {
     private val paint = Paint();
     private val path = Path()
@@ -66,7 +66,7 @@ class Rhombus(private val startX: Float, private val startY: Float, val width: F
         return centerPoint;
     }
 
-    override fun setActive(context: View) {
+    override fun setActive(context: View?) {
 
     }
 

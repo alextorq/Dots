@@ -3,11 +3,9 @@ package com.example.dots
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.Point
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -24,12 +22,13 @@ import com.example.dots.utils.sizeParams
 
 
 class GameManger: AppCompatActivity() {
-    private lateinit var model: LevelModel;
     private var heightCanvas: Int? = null
     private lateinit var figurePosition: FigurePosition
     private lateinit var ViewGame: Draw;
-    private var stepAmount: Int = 0;
     private lateinit var levels: List<LevelModel>;
+    private lateinit var currentLevel: LevelModel;
+    private lateinit var repository: LevelRepositoryJson;
+    private var levelName: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main2)
@@ -37,10 +36,12 @@ class GameManger: AppCompatActivity() {
         ViewGame = findViewById(R.id.view)
 
         levels = getLevels();
+        levelName = repository.getCurrentLevelName()
 
         ViewGame.post {
             heightCanvas = ViewGame.height
-            this.initGame(levels[0])
+            currentLevel = levels[levelName]
+            this.initGame()
         }
 
         setListeners()
@@ -49,8 +50,17 @@ class GameManger: AppCompatActivity() {
 
 
     fun getLevels(): List<LevelModel> {
-        val repo = LevelRepositoryJson(this)
-        return repo.getAllLevels()
+        repository = LevelRepositoryJson(this)
+        return repository.getAllLevels(false)
+    }
+
+
+    fun switchNextLevel() {
+        repository.saveLevel(currentLevel, levelName)
+        levelName++;
+        repository.setLastLevelName(levelName)
+        currentLevel = levels[levelName]
+        initGame()
     }
 
 
@@ -58,6 +68,7 @@ class GameManger: AppCompatActivity() {
         val statusIntersectinCross = checkIntersections(line)
         if (!statusIntersectinCross) {
             val figure: Figure? = checkDotInFigures(line.endPoint)
+            val startFigure : Figure? = checkDotInFigures(line.startPoint)
             figure?.let { circle ->
                 line.endPoint = circle.getCenterPoint()
                 if (checkCorner(line) && !somePoint(line)) {
@@ -66,9 +77,11 @@ class GameManger: AppCompatActivity() {
                            checkFinish()
                         }
                     }
-                    val linesAmount: Int = ViewGame.addLine(line)
+                    ViewGame.addLine(line)
+                    startFigure?.playingField?.let { currentLevel.setline(it,  figure.playingField) }
+
                     ViewGame.setFigureActive(figure)
-                    updateStep(linesAmount)
+                    updateStep()
                 }
             }
         } else {
@@ -86,6 +99,7 @@ class GameManger: AppCompatActivity() {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     fun showFinModal() {
         val parent = findViewById<View>(R.id.toolbar)
         val popupView: View = LayoutInflater.from(this).inflate(R.layout.win, null)
@@ -98,7 +112,7 @@ class GameManger: AppCompatActivity() {
 
         popupWindow.setTouchInterceptor{ _, value ->
             popupWindow.dismiss() ;
-            initGame(levels[1])
+            switchNextLevel()
             true
         }
 
@@ -128,7 +142,7 @@ class GameManger: AppCompatActivity() {
     }
 
     fun checkStepsAreOver(): Boolean {
-        return stepAmount >= model.amountSteps
+        return currentLevel.lines.size >= currentLevel.amountSteps
     }
 
     fun stopDraw() {
@@ -163,18 +177,17 @@ class GameManger: AppCompatActivity() {
         return status
     }
 
-    fun initGame(level: LevelModel) {
-        model = level
+    fun initGame() {
         val sizes: ScreenSizes = sizeParams(this)
         heightCanvas?.let { sizes.height = it }
-        stepAmount = 0;
-        val calculateSizes = CalculatePositionFigure(model);
+        val calculateSizes = CalculatePositionFigure(currentLevel);
         figurePosition = calculateSizes.calc(sizes);
         ViewGame.setModel(figurePosition)
         ViewGame.setGameManger(this)
+        ViewGame.invalidate()
 
         setPadding()
-        updateStep(0)
+        updateStep()
     }
 
     private fun setPadding() {
@@ -183,17 +196,18 @@ class GameManger: AppCompatActivity() {
         toolbar.setPadding(padding, 0, padding, 0)
     }
 
-    fun updateStep(count: Int) {
-        stepAmount = count
+    fun updateStep() {
         val TextureView: TextView = findViewById(R.id.step)
-        TextureView.setText("${count}/${model.amountSteps}")
+        TextureView.setText("${currentLevel.lines.size}/${currentLevel.amountSteps}")
     }
 
 
     private fun setListeners() {
         val resetLevelButton: ImageButton = findViewById(R.id.resetLevel)
         resetLevelButton.setOnClickListener{
-//            initGame()
+            currentLevel.resetLevel()
+            repository.saveLevel(currentLevel, levelName)
+            initGame()
         }
 
         val menuLink: ImageButton = findViewById(R.id.menuLink)

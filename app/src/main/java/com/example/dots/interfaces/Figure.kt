@@ -15,5 +15,8 @@ interface Figure {
 
     fun includeLine(p1: Point, p2: Point): Boolean
 
-    fun setActive(context: View)
+    fun setActive(context: View?)
+
+    val playingField: Int
+
 }

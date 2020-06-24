@@ -8,7 +8,7 @@ import android.view.View
 import com.example.dots.interfaces.Figure
 import kotlin.math.hypot
 
-class FinishCircle(val cx: Float, val cy: Float, private val radius: Float):
+class FinishCircle(val cx: Float, val cy: Float, private val radius: Float, override val playingField: Int):
     Figure {
     private val borderColor: Int = Color.parseColor("#FF9900")
     private val paint = Paint()
@@ -61,7 +61,7 @@ class FinishCircle(val cx: Float, val cy: Float, private val radius: Float):
         return (a + b + c < 0);
     }
 
-    override fun setActive(context: View) {
+    override fun setActive(context: View?) {
 
     }
 

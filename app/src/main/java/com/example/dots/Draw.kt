@@ -26,6 +26,7 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
     private lateinit var lastFigure: Figure;
     private var figures: MutableList<Figure> = mutableListOf<Figure>();
     public var canDraw: Boolean = true;
+    private lateinit var position: FigurePosition;
 
     private lateinit var gameManager: GameManger;
 
@@ -39,13 +40,21 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         paint.isAntiAlias = true
     }
 
-    public fun setModel(position: FigurePosition) {
+
+    fun clear() {
         canDraw = true
-        lastFigure = position.lastFigure;
-        figures = position.figures
-        lines.clear()
         postInvalidateOnAnimation()
     }
+
+    public fun setModel(position: FigurePosition) {
+        this.position = position
+        lines = position.lines
+        lastFigure = position.lastFigure;
+        figures = position.figures
+        clear()
+
+    }
+
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

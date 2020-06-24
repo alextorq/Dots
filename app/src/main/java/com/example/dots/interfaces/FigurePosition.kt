@@ -1,6 +1,7 @@
 package com.example.dots.interfaces
 
 import com.example.dots.figures.Circle
+import com.example.dots.figures.Line
 import com.example.dots.figures.RequiredCircle
 
 interface FigurePosition {
@@ -13,4 +14,5 @@ interface FigurePosition {
     val finishFigure: Figure
     val ofx: Float
     val ofy: Float
+    val lines: MutableList<Line>
 }

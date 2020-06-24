@@ -1,29 +1,45 @@
 package com.example.dots
 
-//import com.example.dots.utils.cast
 import android.content.Context
-import android.util.Log
+import android.content.SharedPreferences
+import android.preference.Preference
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.File
+import java.io.IOException
 import java.io.InputStream
+import java.io.OutputStreamWriter
+import com.example.dots.interfaces.LevelRepository
+import java.util.prefs.Preferences
+
 
 val DATABASE_VERSION = 9
 val DATABASE_NAME = "Dots.db"
 
 typealias levelMap = MutableMap<String, Any>
 
-fun readJSONFromAsset(context: Context, fileName: String): String? {
-    var json: String? = null
+fun readJSONFrom(context: Context, fileName: String): String {
+    var json: String = ""
     try {
-        val  inputStream: InputStream = context.assets.open(fileName)
+        val inputStream: InputStream = context.openFileInput(fileName)
         json = inputStream.bufferedReader().use{it.readText()}
     } catch (ex: Exception) {
         ex.printStackTrace()
-        return null
     }
     return json
 }
+
+fun readJSONFromAsset(context: Context, fileName: String): String {
+    var json: String = ""
+    try {
+        val inputStream: InputStream = context.getAssets().open(fileName)
+        json = inputStream.bufferedReader().use{it.readText()}
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+    return json
+}
+
+val PREFIX = "level"
 
 
 //class LevelRepository(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -89,14 +105,35 @@ fun readJSONFromAsset(context: Context, fileName: String): String? {
 //}
 
 
-class LevelRepositoryJson(val context: Context) {
+class LevelRepositoryJson(val context: Context): LevelRepository {
 
-    fun getNameFiles(): MutableList<String> {
+    private lateinit var pref: SharedPreferences;
+
+    init {
+        replaceInitialFiles()
+    }
+
+    fun replaceInitialFiles() {
+        val files = context.fileList();
+
+        if  (files.size < 2) {
+            val levels = getAllLevels(true)
+            levels.forEachIndexed { index, level ->
+                saveLevel(level, index)
+            }
+        }
+
+    }
+
+    fun getNameFiles(initial: Boolean): MutableList<String> {
         val listNames: MutableList<String> = mutableListOf<String>();
-        val files = context.getAssets().list("");
+        var files = context.fileList();
+        if (initial) {
+            files = context.assets.list("");
+        }
         files?.let {
             for (name in it) {
-                if (name.startsWith("level")) {
+                if (name.startsWith(PREFIX)) {
                     listNames.add(name)
                 }
             }
@@ -104,16 +141,49 @@ class LevelRepositoryJson(val context: Context) {
         return listNames;
     }
 
-    fun getAllLevels(): MutableList<LevelModel> {
+    override fun getAllLevels(initial: Boolean): MutableList<LevelModel> {
         val listLevelModel: MutableList<LevelModel> = mutableListOf<LevelModel>();
-        for (name in getNameFiles()) {
-            val model = readJSONFromAsset(this.context, name);
+        for (name in getNameFiles(initial)) {
+            var model = "";
+            if (initial) {
+                model = readJSONFromAsset(this.context, name);
+            } else {
+                model = readJSONFrom(this.context, name);
+            }
             val listPersonType = object : TypeToken<LevelModel>() {}.type
             var figuresClassArray: LevelModel = Gson().fromJson(model, listPersonType)
             listLevelModel.add(figuresClassArray)
         }
         return listLevelModel;
     }
+
+
+    override fun saveLevel(levelModel: LevelModel, name: Int): LevelModel {
+        try {
+            val data = Gson().toJson(levelModel)
+            val outputStreamWriter = OutputStreamWriter(context.openFileOutput("$PREFIX$name.json", Context.MODE_PRIVATE))
+            outputStreamWriter.write(data)
+            outputStreamWriter.close()
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+        return levelModel
+    }
+
+
+
+    fun getCurrentLevelName(): Int {
+        val pref = context.getSharedPreferences("dots.levels", Context.MODE_PRIVATE)
+        return pref.getInt("levelName", 0)
+    }
+
+    fun setLastLevelName(name: Int): Int {
+        pref = context.getSharedPreferences("dots.levels", Context.MODE_PRIVATE)
+        pref.edit().putInt("levelName", name);
+        return name;
+    }
+
+
 }
 
 

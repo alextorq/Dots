@@ -10,7 +10,7 @@ import com.example.dots.interfaces.Figure
 import com.example.dots.utils.FiguresParams
 import kotlin.math.hypot
 
-class RequiredCircle(private val cx: Float, private val cy: Float, private val radius: Float): Figure {
+class RequiredCircle(private val cx: Float, private val cy: Float, private val radius: Float, override val playingField: Int): Figure {
 
     private var backgroundColor: Int = Color.parseColor("#151515")
     private val borderColor: Int = Color.parseColor("#FFFFFF")
@@ -70,14 +70,18 @@ class RequiredCircle(private val cx: Float, private val cy: Float, private val r
         return (a + b + c < 0);
     }
 
-    override fun setActive(context: View) {
+    override fun setActive(context: View?) {
         if (!isActive) {
             val requiredCircleActiveBorderWidth = FiguresParams.RequiredCircleActiveBorderWidth
-            for (x in 0..requiredCircleActiveBorderWidth)  {
-                Handler().postDelayed({
-                    borderWidth += 1;
-                    context.postInvalidate()
-                }, (10 * x).toLong())
+            context?.let {
+                for (x in 0..requiredCircleActiveBorderWidth)  {
+                    Handler().postDelayed({
+                        borderWidth += 1;
+                        context.postInvalidate()
+                    }, (10 * x).toLong())
+                }
+            } ?: run {
+                borderWidth = requiredCircleActiveBorderWidth
             }
             isActive = true
         }

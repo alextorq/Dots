@@ -13,7 +13,7 @@ import com.example.dots.utils.FiguresParams
 import kotlin.math.hypot
 
 
-class Circle(val cx: Float, val cy: Float, private val radius: Float):
+class Circle(val cx: Float, val cy: Float, private val radius: Float, override val playingField: Int):
     Figure {
 
     private var backgroundColor: Int = Color.parseColor("#151515")
@@ -73,15 +73,20 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float):
         return (a + b + c < 0);
     }
 
-    override fun setActive(context: View) {
+    override fun setActive(context: View?) {
         if (!isActive) {
             val activeBorderWidth = FiguresParams.CircleActiveBorderWidth;
-            for (x in 0..activeBorderWidth)  {
-                Handler().postDelayed({
-                    borderWidth += 1;
-                    context.postInvalidate()
-                }, (10 * x).toLong())
+            context?.let {
+                for (x in 0..activeBorderWidth)  {
+                    Handler().postDelayed({
+                        borderWidth += 1;
+                        context.postInvalidate()
+                    }, (10 * x).toLong())
+                }
+            } ?: run {
+                borderWidth = activeBorderWidth
             }
+
             isActive = true;
         }
     }

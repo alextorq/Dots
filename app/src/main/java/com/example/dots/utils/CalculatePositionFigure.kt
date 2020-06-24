@@ -44,37 +44,28 @@ class CalculatePositionFigure(val model: LevelModel) {
 
             when (type) {
                 "start" -> {
-                    val rhombus = Rhombus(
-                        x,
-                        y,
-                        circleRadiusPixelFormat
-                    )
+                    val rhombus = Rhombus(x, y, circleRadiusPixelFormat, i)
                     figure = rhombus
                     startFigure = rhombus
                     lastFigure = rhombus
                 }
                 "requiredDot" -> {
-                    figure = RequiredCircle(
-                        x,
-                        y,
-                        circleRadiusPixelFormat
-                    )
+                    figure = RequiredCircle(x, y, circleRadiusPixelFormat, i)
                     requiredCircle.add(figure)
                 }
 
 
                 "cross" -> {
-                    val finish: Figure =
-                        Cross(x, y, circleRadiusPixelFormat)
+                    val finish: Figure = Cross(x, y, circleRadiusPixelFormat, i)
                     figure = finish
                     crosses.add(figure);
                 }
                 "finish" -> {
-                    figure = FinishCircle(x, y, circleRadiusPixelFormat)
+                    figure = FinishCircle(x, y, circleRadiusPixelFormat, i)
                     finishFigure = figure
                 }
                 else -> {
-                    figure = Circle(x, y, circleRadiusPixelFormat)
+                    figure = Circle(x, y, circleRadiusPixelFormat, i)
                     circles.add(figure)
                 }
             }
@@ -82,6 +73,18 @@ class CalculatePositionFigure(val model: LevelModel) {
 
             figures.add(figure)
         }
+
+        val lines: MutableList<Line> = mutableListOf<Line>()
+        model.lines.forEach { it ->
+            val startPointIndex = it[0];
+            val stopPointIndex = it[1];
+            figures[startPointIndex].setActive(null)
+            figures[stopPointIndex].setActive(null)
+            lines.add(Line(figures[startPointIndex].getCenterPoint(), figures[stopPointIndex].getCenterPoint()))
+
+            lastFigure = figures[stopPointIndex]
+        }
+
 
         val result =  object: FigurePosition {
             override val figures = figures;
@@ -93,9 +96,11 @@ class CalculatePositionFigure(val model: LevelModel) {
             override val finishFigure = finishFigure
             override val ofx = ofx;
             override val ofy = ofy;
+            override val lines = lines;
         }
 
         return result;
     }
 
 }
+

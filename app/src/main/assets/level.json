@@ -114,5 +114,5 @@
   "circleRadius": 4,
   "amountFigureInRow": 6,
   "amountFigure": 36,
-  "lines": []
+  "lines": [[0, 3]]
 }
