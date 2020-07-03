@@ -19,4 +19,6 @@ interface Figure {
 
     val playingField: Int
 
+    val isCanAssign: Boolean
+
 }

@@ -70,6 +70,7 @@ class GameManger: AppCompatActivity() {
             val figure: Figure? = checkDotInFigures(line.endPoint)
             val startFigure : Figure? = checkDotInFigures(line.startPoint)
             figure?.let { circle ->
+                if (!circle.isCanAssign) {return}
                 line.endPoint = circle.getCenterPoint()
                 if (checkCorner(line) && !somePoint(line)) {
                     when (figure::class.java.simpleName) {
@@ -87,11 +88,8 @@ class GameManger: AppCompatActivity() {
         } else {
             playSound();
         }
-        val status = checkStepsAreOver()
-        if (status) {
-            stopDraw()
-            showMessage("STEPS ARE OVER")
-        }
+        checkStepsAreOver()
+
     }
 
     fun finishGame() {
@@ -141,8 +139,11 @@ class GameManger: AppCompatActivity() {
        return figurePosition.requiredCircle.all { it.isActive }
     }
 
-    fun checkStepsAreOver(): Boolean {
-        return currentLevel.lines.size >= currentLevel.amountSteps
+    fun checkStepsAreOver(): Unit {
+        if (currentLevel.lines.size >= currentLevel.amountSteps) {
+            stopDraw()
+            showMessage("STEPS ARE OVER")
+        }
     }
 
     fun stopDraw() {
@@ -181,20 +182,14 @@ class GameManger: AppCompatActivity() {
         val sizes: ScreenSizes = sizeParams(this)
         heightCanvas?.let { sizes.height = it }
         val calculateSizes = CalculatePositionFigure(currentLevel);
+
         figurePosition = calculateSizes.calc(sizes);
         ViewGame.setModel(figurePosition)
         ViewGame.setGameManger(this)
         ViewGame.invalidate()
-
-        setPadding()
         updateStep()
     }
 
-    private fun setPadding() {
-        val padding: Int = figurePosition.ofx.toInt();
-        val toolbar: LinearLayout = findViewById(R.id.toolbar)
-        toolbar.setPadding(padding, 0, padding, 0)
-    }
 
     fun updateStep() {
         val TextureView: TextView = findViewById(R.id.step)

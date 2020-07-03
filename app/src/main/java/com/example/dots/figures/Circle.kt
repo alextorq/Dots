@@ -24,6 +24,7 @@ class Circle(val cx: Float, val cy: Float, private val radius: Float, override v
     /*Поправка на криворукость*/
     private val fingerCorrect = 20
     private var isActive: Boolean = false
+    override val isCanAssign = true
 
 
     override fun getCenterPoint(): Point {

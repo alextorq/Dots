@@ -7,6 +7,7 @@ data class LevelModel(val amountFigure: Float = 36F,
                       val amountFigureInRow: Float = 6F,
                       val circleRadius: Float = 4F,
                       val amountSteps: Int = 6,
+                      var passed: Boolean = false,
                       var figures: List<FigureDescription>,
                       var lines: MutableList<List<Int>>) {
 
@@ -17,5 +18,6 @@ data class LevelModel(val amountFigure: Float = 36F,
 
     fun resetLevel() {
         lines.clear();
+        passed = false;
     }
 }

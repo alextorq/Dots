@@ -15,6 +15,7 @@ class FinishCircle(val cx: Float, val cy: Float, private val radius: Float, over
     private val centerPoint: Point = Point(cx.toInt(), cy.toInt())
     /*Поправка на криворукость*/
     private val fingerCorrect = 20
+    override val isCanAssign = true
 
     override fun getCenterPoint(): Point {
         return centerPoint

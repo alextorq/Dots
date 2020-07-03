@@ -14,6 +14,7 @@ class Cross(private val startX: Float, private val startY: Float, val width: Flo
     private val color = Color.parseColor("#FFFFFF")
     private val cathet = (Math.sin(45.0) * width).toFloat()
     private val centerPoint: Point = Point(startX.toInt(), startY.toInt())
+    override val isCanAssign = false
 
     init {
         paint.style = Paint.Style.STROKE

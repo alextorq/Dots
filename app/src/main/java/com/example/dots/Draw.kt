@@ -9,10 +9,13 @@ import android.graphics.Point
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import com.example.dots.figures.Circle
 import com.example.dots.figures.Line
 import com.example.dots.interfaces.Figure
 import com.example.dots.interfaces.FigurePosition
+import java.lang.Exception
 
 
 class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
@@ -41,6 +44,19 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
     }
 
 
+    private fun setPadding() {
+        try {
+            val padding: Int = position.ofx.toInt();
+            val parent = this.parent as LinearLayout
+            val toolbar: LinearLayout = parent.findViewById(R.id.toolbar)
+            toolbar.setPadding(padding, 0, padding, 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+
     fun clear() {
         canDraw = true
         postInvalidateOnAnimation()
@@ -51,8 +67,8 @@ class Draw(context: Context, attrs: AttributeSet): View(context, attrs) {
         lines = position.lines
         lastFigure = position.lastFigure;
         figures = position.figures
+        setPadding()
         clear()
-
     }
 
 

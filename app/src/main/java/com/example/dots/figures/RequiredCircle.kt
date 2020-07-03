@@ -19,7 +19,8 @@ class RequiredCircle(private val cx: Float, private val cy: Float, private val r
     private val centerPoint: Point = Point(cx.toInt(), cy.toInt())
     /*Поправка на криворукость*/
     private val fingerCorrect = 20
-    public var isActive = false;
+    var isActive = false;
+    override val isCanAssign = true
 
     override fun draw(canvas: Canvas, paint: Paint) {
         this.paint.color = borderColor

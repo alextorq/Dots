@@ -173,13 +173,12 @@ class LevelRepositoryJson(val context: Context): LevelRepository {
 
 
     fun getCurrentLevelName(): Int {
-        val pref = context.getSharedPreferences("dots.levels", Context.MODE_PRIVATE)
+        pref = context.getSharedPreferences("dots.levels", Context.MODE_PRIVATE)
         return pref.getInt("levelName", 0)
     }
 
     fun setLastLevelName(name: Int): Int {
-        pref = context.getSharedPreferences("dots.levels", Context.MODE_PRIVATE)
-        pref.edit().putInt("levelName", name);
+        pref.edit().putInt("levelName", name).apply();
         return name;
     }
 

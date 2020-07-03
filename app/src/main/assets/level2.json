@@ -114,5 +114,6 @@
   "circleRadius": 4,
   "amountFigureInRow": 6,
   "amountFigure": 36,
-  "lines": []
+  "lines": [],
+  "passed": false
 }
